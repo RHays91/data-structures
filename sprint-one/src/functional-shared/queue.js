@@ -4,6 +4,7 @@ var Queue = function(){
   var someInstance = {};
 
   someInstance.length = 0;
+  someInstance.counter = 0;
   someInstance.storage = {};
 
   extend(someInstance, queueMethods);
@@ -19,15 +20,15 @@ queueMethods.enqueue = function(value){
 };
 
 queueMethods.dequeue = function(){
-	this.length--;
-	return this.storage[this.length + 1];
+	this.counter++;
+	return this.storage[this.counter];
 };
 
 queueMethods.size = function(){
-	if(this.length <= 0){
-		return 0;
+	if(this.counter < this.length){
+		return this.length - this.counter;
 	}else {
-		return this.length;
+		return 0;
 	}
 };
 
