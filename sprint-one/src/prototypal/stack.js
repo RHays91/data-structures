@@ -18,8 +18,12 @@ stackMethods.push = function(value){
 };
 
 stackMethods.pop = function(){
+	
+	var temp = this.storage[this.length];
+	delete this.storage[this.length];
 	this.length--;
-	return this.storage[this.length + 1];
+	return temp;
+	
 };
 
 stackMethods.size = function(){
@@ -29,4 +33,5 @@ stackMethods.size = function(){
 		return this.length;
 	}
 };
+
 

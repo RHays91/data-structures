@@ -21,7 +21,9 @@ queueMethods.enqueue = function(value){
 
 queueMethods.dequeue = function(){
 	this.counter++;
-	return this.storage[this.counter];
+  var temp = this.storage[this.counter];
+  delete this.storage[this.counter];
+  return temp;
 };
 
 queueMethods.size = function(){
