@@ -34,17 +34,11 @@ Graph.prototype.hasEdge = function(fromNode, toNode){
 	// 	}
 	// }
 	// return false;
-
 	for(var i = 0; i < this.edges[fromNode].length; i++){
 		if(this.edges[fromNode][i] === toNode){
 			return true;
 		}
 	}
-	for(var i = 0; i < this.edges[toNode].length; i++){
-		if(this.edges[toNode][i] === fromNode){
-			return true;
-		}
-	}	
 	return false;
 };
 
@@ -54,10 +48,25 @@ Graph.prototype.addEdge = function(fromNode, toNode){
 	} else {
 		this.edges[fromNode].push(toNode);
 	}
+	if(this.edges[toNode] === undefined){
+		this.edges[toNode] = [fromNode];
+	} else {
+		this.edges[toNode].push(fromNode);
+	}
+	
 };
 
 Graph.prototype.removeEdge = function(fromNode, toNode){
-	this.edges[fromNode].splice
+	for(var i = 0; i < this.edges[fromNode].length; i++){
+		if(this.edges[fromNode][i] === toNode){
+			this.edges[fromNode].splice(i, 1)
+		}
+	}
+	for(var i = 0; i < this.edges[toNode].length; i++){
+		if(this.edges[toNode][i] === fromNode){
+			this.edges[toNode].splice(i, 1)
+		}
+	}
 };
 
 Graph.prototype.forEachNode = function(callback){
