@@ -33,11 +33,11 @@ HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var collisionsList = this._storage.get(i);
   var listNode = collisionsList.head;
-  //traverse through collisionsList to check if value[0] === k
-  while(listNode.value[0] !== k){
+  //traverse through collisionsList (start at head) to check if value[0] === k
+  while (listNode.value[0] !== k){
     if (listNode.next === null){
       //it not, return false
-      return false;
+      return null;
     } else {
       listNode = listNode.next;
     }
@@ -49,11 +49,21 @@ HashTable.prototype.retrieve = function(k){
 
 HashTable.prototype.remove = function(k){
 	var i = getIndexBelowMaxForKey(k, this._limit);
+  var collisionsList = this._storage.get(i);
+  var listNode = collisionsList.head;
 
-  var bucket = this._storage.get(i);
-  if(bucket[k] !== undefined){
-    bucket[k] = null;
+  //traverse through collisionsList (start at head) to check if value[0] === k
+  while (listNode.value[0] !== k){
+    if (listNode.next === null){
+      //if not found, do nothing
+      return;
+    } else {
+      listNode = listNode.next;
+    }
   }
+  //if it does, assign value null to 
+  listNode.value[1] = null;
+  
 };
 
 var LinkedList = function(){
