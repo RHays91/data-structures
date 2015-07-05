@@ -1,9 +1,43 @@
 var HashTable = function(){
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
+  this._count = 0;
 };
 
 HashTable.prototype.insert = function(k, v){
+  //increase count by 1
+  this._count++;
+  //if count is >= .75 * this._limit
+  if (this._count >= this._limit * .75) {
+    //reset the count to 0
+    this._count = 0;
+    //Double the this._storage limit
+    var prevStorage = this._storage;
+    this._limit *= 2;
+    this._storage = LimitedArray(this._limit);
+    //redistribute the nodes
+  
+    //traverse through the prevStorage and use each node as input to this._storage.set()
+    var tempArray = [];
+    prevStorage.each(function(list){
+      //for each of the nodes 
+      var listNode = list.head;
+      while (listNode.next !== null) {
+        //get the tuple and 
+        var tuple = listNode.value;
+        //pass it to insert on new double storage
+        tempArray.push(tuple);
+        listNode = listNode.next;
+      }
+    });
+    for (var i = 0; i < tempArray.length; i++) {
+      this._storage.insert(tempArray[i]);
+    }
+  }
+  
+
+  //insert the new node
+
   var i = getIndexBelowMaxForKey(k, this._limit);
   this._storage.set(i, this._storage.get(i) || LinkedList());
   var collisionsList = this._storage.get(i);
